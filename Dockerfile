@@ -19,7 +19,7 @@ ARG CANVAS_RAILS=6.1
 ENV CANVAS_RAILS=${CANVAS_RAILS}
 
 ENV YARN_VERSION 1.19.1-1
-ENV BUNDLER_VERSION 2.2.17
+ENV BUNDLER_VERSION 2.2.33
 ENV GEM_HOME /home/docker/.gem/$RUBY
 ENV PATH $GEM_HOME/bin:$PATH
 ENV BUNDLE_APP_CONFIG /home/docker/.bundle
@@ -27,6 +27,8 @@ ENV BUNDLE_APP_CONFIG /home/docker/.bundle
 WORKDIR $APP_HOME
 
 USER root
+
+ADD . .
 
 ARG USER_ID
 # This step allows docker to write files to a host-mounted volume with the correct user permissions.
@@ -65,10 +67,10 @@ RUN if [ -e /var/lib/gems/$RUBY_MAJOR.0/gems/bundler-* ]; then BUNDLER_INSTALL="
   && find $GEM_HOME ! -user docker | xargs chown docker:docker
 RUN npm install -g npm@latest && npm cache clean --force
 
-USER docker
+RUN ls -l;
 
 RUN set -eux; \
-  mkdir -p \
+  ./script/makedirs.sh \
     .yardoc \
     app/stylesheets/brandable_css_brands \
     app/views/info \
@@ -93,4 +95,22 @@ RUN set -eux; \
     tmp \
     /home/docker/.bundle/ \
     /home/docker/.cache/yarn \
-    /home/docker/.gem/
+    /home/docker/.gem/ \
+    packages/babel-plugin-themeable-styles/node_modules \
+    packages
+
+RUN chown -R docker:docker . 
+
+
+RUN ls -la
+
+USER docker
+
+RUN bundle config --global build.nokogiri --use-system-libraries && \
+  bundle config --global build.ffi --enable-system-libffi && \
+  mkdir -p /home/docker/.bundle && \
+  bundle install --jobs $(nproc)
+
+RUN   yarn install --ignore-optional --pure-lockfile || yarn install --ignore-optional --pure-lockfile --network-concurrency 1
+
+RUN   bundle exec rails canvas:compile_assets_dev
