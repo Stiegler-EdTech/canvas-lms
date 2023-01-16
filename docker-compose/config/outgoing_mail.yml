@@ -1,9 +1,12 @@
 production: &production
-  address: mailcatcher
-  port: 1025
-  domain: canvas.docker
-  outgoing_address: canvas@canvas.docker
-  default_name: Instructure Canvas
+  address: <%= ENV.fetch('SMTP_ADDRESS') %>
+  port: <%= ENV.fetch('SMTP_PORT', "25") %>
+  user_name: <%= ENV.fetch('SMTP_USER_NAME') %>
+  password: <%= ENV.fetch('SMTP_PASSWORD') %>
+  authentication: <%= ENV.fetch('SMTP_AUTHENTICATION') %> # plain, login, or cram_md5
+  domain: <%= ENV.fetch('SMTP_DOMAIN') %>
+  outgoing_address: <%= ENV.fetch('SMTP_OUTGOING_ADDRESS') %>
+  default_name: <%= ENV.fetch('SMTP_DEFAULT_NAME') %>
 
 development:
   <<: *production

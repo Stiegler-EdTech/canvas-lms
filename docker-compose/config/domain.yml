@@ -1,5 +1,5 @@
 production:
-  domain: "canvas.docker"
+  domain: <%= ENV.fetch('CANVAS_PRODUCTION_DOMAIN', '"canvas.docker"') %>
 
 test:
   domain: localhost
