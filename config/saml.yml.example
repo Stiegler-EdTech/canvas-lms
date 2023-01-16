@@ -1,13 +1,13 @@
 # In order to consume encrypted SAML assertions, you'll need to create
 # a public/private keypair:
-# 
+#
 # openssl req -new -newkey rsa:2048 -days 730 -nodes -x509 -keyout samlkey.pem -out samlcert.pem
 
 production:
-  entity_id: "http://www.your-domain.com/saml2"
-  tech_contact_name: "Administrator"
-  tech_contact_email: "info@your-domain.com"
-  
+  entity_id: <%= ENV.fetch('SAML_ENTITY_ID') %>
+  tech_contact_name: <%= ENV.fetch('SAML_TECHN_CONTACT_NAME') %>
+  tech_contact_email: <%= ENV.fetch('SAML_TECHN_CONTACT_EMAIL') %>
+
 development:
   entity_id: "http://www.your-domain.com/saml2"
   tech_contact_name: "Administrator"
@@ -17,7 +17,7 @@ development:
     certificate: /path/to/samlcert.pem
     additional_private_keys:
       - /path/to/oldsamlkey.pem
-     
+
 test:
   entity_id: "http://www.your-domain.com/saml2"
   tech_contact_name: "Administrator"

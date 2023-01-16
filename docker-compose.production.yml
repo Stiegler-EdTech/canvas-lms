@@ -8,17 +8,19 @@ services:
     links:
       - postgres
       - redis
-    environment:
-      POSTGRES_PASSWORD: sekret
+    env_file:
+      - ./.env
 
   jobs:
     <<: *WEB
     command: bundle exec script/delayed_job run
+    env_file:
+      - ./.env
 
-  postgres:
-    build: ./docker-compose/postgres
-    environment:
-      POSTGRES_PASSWORD: sekret
+  # postgres:
+  #   build: ./docker-compose/postgres
+  #   environment:
+  #     POSTGRES_PASSWORD: sekret
 
   redis:
     image: redis:alpine

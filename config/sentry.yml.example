@@ -1,10 +1,10 @@
 development:
-  dsn: 'your-sandbox-dsn-here'
-  frontend_dsn: 'your-sandbox-frontend-dsn-here'
-  org_slug: 'your-org-slug-here'
-  base_url: 'your-base-url-here'
+  dsn: <%= ENV.fetch('SENTRY_DEV_DSN') %>
+  frontend_dsn: <%= ENV.fetch('SENTRY_DEV_FRONTEND_DSN') %>
+  org_slug: <%= ENV.fetch('SENTRY_ORG_SLUG') %>
+  base_url: <%= ENV.fetch('SENTRY_BASE_URL') %>
 production:
-  dsn: 'your-real-dsn-here'
-  frontend_dsn: 'your-real-frontend-dsn-here'
-  org_slug: 'your-org-slug-here' # like 'instructure'
-  base_url: 'your-base-url-here' # like https://sentry.io
+  dsn: <%= ENV.fetch('SENTRY_DSN') %>
+  frontend_dsn: <%= ENV.fetch('SENTRY_FRONTEND_DSN') %>
+  org_slug: <%= ENV.fetch('SENTRY_ORG_SLUG') %> # like 'instructure'
+  base_url: <%= ENV.fetch('SENTRY_BASE_URL') %> # like https://sentry.io
