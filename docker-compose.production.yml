@@ -6,7 +6,6 @@ services:
     build:
       context: .
     links:
-      - postgres
       - redis
     env_file:
       - ./.env

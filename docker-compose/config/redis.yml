@@ -1,6 +1,6 @@
 production:
   servers:
-    -  <%= ENV.fetch('REDIS_URL', redis://redis) %>
+    -  <%= ENV.fetch('REDIS_URL', 'redis://redis') %>
 
 development:
   servers:

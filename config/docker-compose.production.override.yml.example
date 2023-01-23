@@ -1,0 +1,146 @@
+# See doc/docker/README.md or https://github.com/instructure/canvas-lms/tree/master/doc/docker
+version: '2.3'
+services:
+  jobs: &BASE
+    build:
+      context: .
+    volumes:
+      #- .:/usr/src/app
+      - api_docs:/usr/src/app/public/doc/api
+      - brandable_css_brands:/usr/src/app/app/stylesheets/brandable_css_brands
+      - bundler:/home/docker/.bundle/
+      - canvas-docker-gems:/home/docker/.gem/
+      - canvas-planner_node_modules:/usr/src/app/packages/canvas-planner/node_modules
+      - canvas-planner_lib:/usr/src/app/packages/canvas-planner/lib
+      - jest-moxios-utils_node_modules:/usr/src/app/packages/jest-moxios-utils/node_modules
+      - js-utils_es:/usr/src/app/packages/js-utils/es
+      - js-utils_lib:/usr/src/app/packages/js-utils/lib
+      - js-utils_node_modules:/usr/src/app/packages/js-utils/node_modules
+      - k5uploader_es:/usr/src/app/packages/k5uploader/es
+      - k5uploader_lib:/usr/src/app/packages/k5uploader/lib
+      - k5uploader_node_modules:/usr/src/app/packages/k5uploader/node_modules
+      - locales:/usr/src/app/config/locales/generated
+      - log:/usr/src/app/log
+      - node_modules:/usr/src/app/node_modules
+      - old-copy-of-react-14-that-is-just-here-so-if-analytics-is-checked-out-it-doesnt-change-yarn.lock_node_modules:/usr/src/app/packages/old-copy-of-react-14-that-is-just-here-so-if-analytics-is-checked-out-it-doesnt-change-yarn.lock/node_modules
+      - pacts:/usr/src/app/pacts
+      - public_dist:/usr/src/app/public/dist
+      - reports:/usr/src/app/reports
+      - styleguide:/usr/src/app/app/views/info
+      - tmp:/usr/src/app/tmp
+      - translations:/usr/src/app/public/javascripts/translations
+      - yardoc:/usr/src/app/.yardoc
+      - yarn-cache:/home/docker/.cache/yarn
+    environment: &BASE-ENV
+      #ENCRYPTION_KEY: facdd3a131ddd8988b14f6e4e01039c93cfa0160
+      RAILS_ENV: production
+    # configs: &BASE-CONFIG
+    #   - source: cache_store_config
+    #     target: /usr/src/app/config/cache_store.yml
+    #   - source: cassandra_config
+    #     target: /usr/src/app/config/cassandra.yml
+    #   - source: consul_config
+    #     target: /usr/src/app/config/consul.yml
+    #   - source: database_config
+    #     target: /usr/src/app/config/database.yml
+    #   - source: delayed_jobs_config
+    #     target: /usr/src/app/config/delayed_jobs.yml
+    #   - source: domain_config
+    #     target: /usr/src/app/config/domain.yml
+    #   - source: dynamic_settings_config
+    #     target: /usr/src/app/config/dynamic_settings.yml
+    #   - source: outgoing_mail_config
+    #     target: /usr/src/app/config/outgoing_mail.yml
+    #   - source: redis_config
+    #     target: /usr/src/app/config/redis.yml
+    #   - source: security_config
+    #     target: /usr/src/app/config/security.yml
+    #   - source: selenium_config
+    #     target: /usr/src/app/config/selenium.yml
+    #   - source: vault_config
+    #     target: /usr/src/app/config/vault.yml
+
+  # webpack:
+  #   <<: *BASE
+  #   command: yarn run webpack
+  #   env_file:
+  #     - ./.env
+
+  web:
+    <<: *BASE
+    environment:
+      <<: *BASE-ENV
+      VIRTUAL_HOST: canvas.docker
+      HTTPS_METHOD: noredirect
+      # AR_QUERY_TRACE: 'true'
+      # AR_QUERY_TRACE_TYPE: 'all' # 'all', 'write', or 'read'
+      # AR_QUERY_TRACE_LINES: 10
+    # configs: *BASE-CONFIG
+
+  githook_installer:
+    build:
+      context: .
+      dockerfile: 'Dockerfile.githook'
+    volumes:
+      - ./.git:/tmp/.git
+      - ./hooks:/tmp/hooks
+      - ./script:/tmp/script
+
+configs:
+  cache_store_config:
+    file: ./docker-compose/config/cache_store.yaml
+  cassandra_config:
+    file: ./docker-compose/config/cassandra.yml
+  consul_config:
+    file: ./docker-compose/config/consul.yml
+  database_config:
+    file: ./docker-compose/config/database.yml
+  delayed_jobs_config:
+    file: ./docker-compose/config/delayed_jobs.yml
+  domain_config:
+    file: ./docker-compose/config/domain.yml
+  dynamic_settings_config:
+    file: ./docker-compose/config/dynamic_settings.yml
+  outgoing_mail_config:
+    file: ./docker-compose/config/outgoing_mail.yml
+  redis_config:
+    file: ./docker-compose/config/redis.yml
+  security_config:
+    file: ./docker-compose/config/security.yml
+  selenium_config:
+    file: ./docker-compose/config/selenium.yml
+  vault_config:
+    file: ./docker-compose/config/vault.yml
+
+
+
+
+volumes:
+  api_docs: {}
+  brandable_css_brands: {}
+  bundler: {}
+  canvas-docker-gems: {}
+  canvas-planner_node_modules: {}
+  canvas-planner_lib: {}
+  i18nliner_node_modules: {}
+  jest-moxios-utils_node_modules: {}
+  js-utils_es: {}
+  js-utils_lib: {}
+  js-utils_node_modules: {}
+  k5uploader_es: {}
+  k5uploader_lib: {}
+  k5uploader_node_modules: {}
+  locales: {}
+  log: {}
+  node_modules: {}
+  old-copy-of-react-14-that-is-just-here-so-if-analytics-is-checked-out-it-doesnt-change-yarn.lock_node_modules: {}
+  pacts: {}
+  public_dist: {}
+  reports: {}
+  styleguide: {}
+  tmp: {}
+  translations: {}
+  yardoc: {}
+  yarn-cache: {}
+
+
