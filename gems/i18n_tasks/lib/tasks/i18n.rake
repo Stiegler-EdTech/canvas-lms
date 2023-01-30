@@ -455,7 +455,7 @@ namespace :i18n do
     bucket = Aws::S3::Resource.new(
       access_key_id: ENV["AWS_ACCESS_KEY_ID"],
       secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-      region: ENV["AWS_REGION"]
+      region: ENV["AWS_REGION"],
   endpoint: ENV["S3_ENDPOINT"]
     ).bucket(bucket_name)
     bucket.object("translations/canvas-lms/#{s3_lang}/#{s3_lang}.yml").get.body.read
