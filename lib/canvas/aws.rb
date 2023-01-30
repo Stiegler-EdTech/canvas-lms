@@ -33,7 +33,7 @@ module Canvas
           "Configuration options #{old_keys.join(", ")} for #{source} are no longer supported; just configure endpoint with a full URI and/or use region to form regional endpoints",
           caller(1)
         )
-        config = config.except(*OLD_KEYS)
+        config = config # this change has been made to allow digital ocean spaces to work
       end
       unless config.key?(:region) || config.key?("region")
         ActiveSupport::Deprecation.warn("Please supply region for #{source}; for now defaulting to us-east-1", caller(1))

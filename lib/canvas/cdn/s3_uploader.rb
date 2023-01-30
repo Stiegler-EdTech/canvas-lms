@@ -32,7 +32,9 @@ module Canvas
         @config = Canvas::Cdn.config
         @s3 = Aws::S3::Resource.new(access_key_id: config.aws_access_key_id,
                                     secret_access_key: config.aws_secret_access_key,
-                                    region: config.region)
+                                    region: config.region,
+                                    endpoint: config.server # included to allow digitalocean spaces to work
+                                    )
         @bucket = @s3.bucket(config.bucket)
         @mutex = Mutex.new
       end

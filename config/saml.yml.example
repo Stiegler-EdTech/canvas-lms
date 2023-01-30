@@ -4,7 +4,7 @@
 # openssl req -new -newkey rsa:2048 -days 730 -nodes -x509 -keyout samlkey.pem -out samlcert.pem
 
 production:
-  entity_id: <%= ENV.fetch('SAML_ENTITY_ID') %>
+  entity_id: <%= ENV.fetch('SAML_ENTITY_ID', 'http://canvas.docker/saml2') %>
   tech_contact_name: <%= ENV.fetch('SAML_TECHN_CONTACT_NAME') %>
   tech_contact_email: <%= ENV.fetch('SAML_TECHN_CONTACT_EMAIL') %>
 

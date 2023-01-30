@@ -1,0 +1,19 @@
+# See doc/docker/README.md or https://github.com/instructure/canvas-lms/tree/master/doc/docker
+version: '2.3'
+services:
+  jobs:
+    build:
+      context: .
+    links:
+      - redis
+    env_file:
+      - ./.env
+    command: bundle exec script/delayed_job run
+
+  # postgres:
+  #   build: ./docker-compose/postgres
+  #   environment:
+  #     POSTGRES_PASSWORD: sekret
+
+  redis:
+    image: redis:alpine

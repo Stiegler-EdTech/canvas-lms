@@ -1,17 +1,22 @@
 development:
-  bucket_name: development-bucket
+  bucket_name: canvas-assets
   access_key_id: access_key
   secret_access_key: secret_key
   region: us-east-1
+  endpoint: https://nyc3.digitaloceanspaces.com
 
 test:
-  bucket_name: test-bucket
+  bucket_name: canvas-assets
   access_key_id: access_key
   secret_access_key: secret_key
   region: us-east-1
-  
+  endpoint: https://nyc3.digitaloceanspaces.com
+
+
 production:
-  bucket_name: production-bucket
+  bucket_name: canvas-assets
   access_key_id: access_key
   secret_access_key: secret_key
   region: us-east-1
+  endpoint: https://nyc3.digitaloceanspaces.com
+
