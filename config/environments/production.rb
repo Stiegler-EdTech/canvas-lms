@@ -45,7 +45,7 @@ environment_configuration(defined?(config) && config) do |config|
   config.public_file_server.enabled = true
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
-  # config.action_controller.asset_host = "http://assets.example.com"
+  config.action_controller.asset_host = "http://assets.example.com" # this must contain the CDN URL
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
