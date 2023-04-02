@@ -5,7 +5,8 @@ services:
     build:
       context: .
     volumes:
-      - .:/usr/src/app
+      #- .:/usr/src/app
+      - config:/usr/src/app/config
       - api_docs:/usr/src/app/public/doc/api
       - brandable_css_brands:/usr/src/app/app/stylesheets/brandable_css_brands
       - bundler:/home/docker/.bundle/
@@ -50,6 +51,8 @@ services:
       # AR_QUERY_TRACE: 'true'
       # AR_QUERY_TRACE_TYPE: 'all' # 'all', 'write', or 'read'
       # AR_QUERY_TRACE_LINES: 10
+    ports:
+      - "0.0.0.0:80:80"
 
   postgres:
     volumes:
@@ -68,6 +71,7 @@ volumes:
   api_docs: {}
   brandable_css_brands: {}
   bundler: {}
+  config: {}
   canvas-docker-gems: {}
   canvas-planner_node_modules: {}
   canvas-planner_lib: {}
